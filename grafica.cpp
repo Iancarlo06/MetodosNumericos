@@ -18,11 +18,20 @@ static void do_drawing(cairo_t *cr)
 {
     //El eje de las Y
 	cairo_stroke(cr);
-  	cairo_set_source_rgb(cr, 0.3, 0, 0.4);
+  	cairo_set_source_rgb(cr, 0, 0, 0);
   	cairo_set_line_width(cr, 2.5);
   	cairo_set_font_size(cr,0);
   	cairo_move_to(cr,20,20);
     cairo_line_to(cr,20,480);
+    cairo_stroke(cr);
+    cairo_save(cr);
+	//El eje de las X
+	cairo_stroke(cr);
+  	cairo_set_source_rgb(cr, 0, 0, 0);
+  	cairo_set_line_width(cr, 2.5);
+  	cairo_set_font_size(cr,0);
+  	cairo_move_to(cr,20,480);
+    cairo_line_to(cr,480,480);
     cairo_stroke(cr);
     cairo_save(cr);
 }
