@@ -2,6 +2,8 @@
 #include <iostream>
 #include <cairo.h>
 #include <gtk/gtk.h>
+#include <string>
+#include <math.h>
 #include "./fparser/fparser.hh"
 
 using namespace std;
@@ -16,6 +18,9 @@ static gboolean on_draw_event(GtkWidget *widget, cairo_t *cr)
 
 static void do_drawing(cairo_t *cr)
 {
+	double a,b;
+	a = 100.0; 
+	b = 1000.0;
     //El eje de las Y
 	cairo_stroke(cr);
   	cairo_set_source_rgb(cr, 0, 0, 0);
@@ -24,15 +29,23 @@ static void do_drawing(cairo_t *cr)
   	cairo_move_to(cr,20,20);
     cairo_line_to(cr,20,480);
     cairo_stroke(cr);
-    cairo_save(cr);
 	//El eje de las X
 	cairo_stroke(cr);
-  	cairo_set_source_rgb(cr, 0, 0, 0);
-  	cairo_set_line_width(cr, 2.5);
-  	cairo_set_font_size(cr,0);
-  	cairo_move_to(cr,20,480);
+	cairo_set_font_size(cr,5);
+  	char *text;
+	double num;
+	string mystr;
+	for(int i = 0; i < 10; i++)
+	{
+		num = a + i*(b-a)/10; 
+		string mystr = to_string(num);
+		text = &mystr[0];
+		cairo_move_to(cr,20 + i*46, 490);
+		cairo_show_text(cr,text);
+	}
+	cairo_move_to(cr,20,480);
     cairo_line_to(cr,480,480);
-    cairo_stroke(cr);
+	cairo_stroke(cr);
     cairo_save(cr);
 }
 
