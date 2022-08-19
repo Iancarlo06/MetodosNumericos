@@ -17,6 +17,7 @@ static gboolean on_draw_event(GtkWidget *widget, cairo_t *cr)
 }
 
 double a,b;
+string func;
 
 static void do_drawing(cairo_t *cr)
 {
@@ -53,7 +54,12 @@ int main(int argc, char *argv[])
 {
 	a = atof(argv[1]);
 	b = atof(argv[2]);
-	cout<<a<<" "<<b<<endl;
+	func = argv[3];
+	FunctionParser fparser;
+   int x = fparser.Parse(func,"x");	
+	double vals[] = { a,b };   
+   cout<<fparser.Eval(vals[0])<<" "<<fparser.Eval(vals[1]);
+	
 	cairo_t *cr;
 	GtkWidget *window;
 	GtkWidget *darea;

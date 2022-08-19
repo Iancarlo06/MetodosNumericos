@@ -55,7 +55,9 @@ int main(int argc, char *argv[])
 	a = atof(argv[1]);
 	b = atof(argv[2]);
 	func = argv[3];
-		
+	FunctionParser fparser;
+   int x = fparser.Parse(func,"x");	
+	
 	cairo_t *cr;
 	GtkWidget *window;
 	GtkWidget *darea;
