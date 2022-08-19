@@ -25,12 +25,12 @@ static void do_drawing(cairo_t *cr)
 {
 	fparser.Parse(func, "x");	
 	int parti = 1000;
-	double aux,;	
+	double aux,faux;	
 	double imaxi = a;
 	double fmaxi = fparser.Eval(&a);
 	double imini= a;
 	double fmini = fmaxi;
-	
+	//Calculo el máximo y el minimo de la función para escoger los ejes X y Y
 	for(int i = 0; i < parti+1; i++)
 	{
 			aux = a + i*(b-a)/parti;
@@ -46,34 +46,55 @@ static void do_drawing(cairo_t *cr)
 				fmini = faux;
 			}
 	}
-	cout<< imaxi<<" "<<fmaxi<<endl;
-	cout<< imini<<" "<<fmini<<endl;	
+	char *text;
+	double num;
+	string mystr;	
    //El eje de las Y
 	cairo_stroke(cr);
+	cairo_set_font_size(cr,8);  	
   	cairo_set_source_rgb(cr, 0, 0, 0);
   	cairo_set_line_width(cr, 2.5);
-  	cairo_set_font_size(cr,0);
   	cairo_move_to(cr,40,40);
   	cairo_line_to(cr,40,760);
-   cairo_stroke(cr);
+  	for(int i = 0; i < 11; i++)
+	{
+		num = fmini + i*(fmaxi-fmini)/10; 
+		mystr = to_string(num);
+		text = &mystr[0];
+		cairo_move_to(cr,20, 760 - i*72);
+		cairo_show_text(cr,text);
+	}
 	//El eje de las X
-	cairo_stroke(cr);
-	cairo_set_font_size(cr,8);
-  	char *text;
-	double num;
-	string mystr;
 	for(int i = 0; i < 11; i++)
 	{
 		num = a + i*(b-a)/10; 
-		string mystr = to_string(num);
+		mystr = to_string(num);
 		text = &mystr[0];
 		cairo_move_to(cr,20 + i*92, 780);
 		cairo_show_text(cr,text);
 	}
 	cairo_move_to(cr,40,760);
    cairo_line_to(cr,980,760);
+   cairo_stroke(cr);
+   cairo_save(cr);
+	//graficamos la función
 	cairo_stroke(cr);
-    cairo_save(cr);
+	cairo_set_font_size(cr,10);  	
+  	cairo_set_source_rgb(cr, 0.88, 0.69, 1);
+	faux = fparser.Eval(&a);
+	cout<<faux<<" "<<fmini<<endl;	
+	num = 720*(faux - fmini)/(fmaxi - fmini);
+	cairo_move_to(cr,20, 40 + num);
+  	for(int i = 1; i < 1001; i++)
+  	{
+		aux = a + i*(b-a)/1000;
+		faux = fparser.Eval(&aux);
+		num = 720*(faux-fmini)/(fmaxi - fmini); 
+		cairo_line_to(cr, 20 + i*92,40 + num); 
+		cairo_move_to(cr, 20 + i*92,40 + num);
+	}	
+	cairo_stroke(cr);
+   cairo_save(cr); 
 }
 
 
