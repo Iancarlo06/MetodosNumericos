@@ -6,6 +6,7 @@
 #include <math.h>
 #include "./fparser/fparser.hh"
 
+
 using namespace std;
 
 static void do_drawing(cairo_t *);
@@ -17,10 +18,36 @@ static gboolean on_draw_event(GtkWidget *widget, cairo_t *cr)
 }
 
 double a,b;
-string func;
+string func,faux;
+FunctionParser fparser;
 
 static void do_drawing(cairo_t *cr)
 {
+	fparser.Parse(func, "x");	
+	int parti = 1000;
+	double aux,faux;	
+	double imaxi = a;
+	double fmaxi = fparser.Eval(&a);
+	double imini= a;
+	double fmini = fmaxi;
+	
+	for(int i = 0; i < parti+1; i++)
+	{
+			aux = a + i*(b-a)/parti;
+			faux = fparser.Eval(&aux);
+			if(faux > fmaxi) 
+			{
+				fmaxi = faux;
+				imaxi = aux;			
+			}
+			if(faux < fmini) 
+			{
+				imini = aux;
+				fmini = faux;
+			}
+	}
+	cout<< imaxi<<" "<<fmaxi<<endl;
+	cout<< imini<<" "<<fmini<<endl;	
    //El eje de las Y
 	cairo_stroke(cr);
   	cairo_set_source_rgb(cr, 0, 0, 0);
@@ -55,8 +82,7 @@ int main(int argc, char *argv[])
 	a = atof(argv[1]);
 	b = atof(argv[2]);
 	func = argv[3];
-	FunctionParser fparser;
-   int x = fparser.Parse(func,"x");	
+   fparser.Parse(func,"x");	
 	
 	cairo_t *cr;
 	GtkWidget *window;
