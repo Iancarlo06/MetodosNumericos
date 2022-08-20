@@ -17,8 +17,9 @@ static gboolean on_draw_event(GtkWidget *widget, cairo_t *cr)
   return FALSE;
 }
 
-double a,b;
-string func,faux;
+double a,b; 
+double epsilon = 0.00000010; //Esto es por si la funcion es casi una linea horizontal en el intervalo asignado
+string func;
 FunctionParser fparser;
 
 static void do_drawing(cairo_t *cr)
@@ -56,6 +57,11 @@ static void do_drawing(cairo_t *cr)
   	cairo_set_line_width(cr, 2.5);
   	cairo_move_to(cr,40,40);
   	cairo_line_to(cr,40,760);
+	if(fmaxi - fmini < epsilon)
+	{
+		fmaxi = fmaxi + 10;
+		fmini = fmini - 10;
+	}  	
   	for(int i = 0; i < 11; i++)
 	{
 		num = fmini + i*(fmaxi-fmini)/10; 
@@ -79,20 +85,29 @@ static void do_drawing(cairo_t *cr)
    cairo_save(cr);
 	//graficamos la función
 	cairo_stroke(cr);
-	cairo_set_font_size(cr,10);  	
+	cairo_set_line_width(cr, 5);
   	cairo_set_source_rgb(cr, 0.88, 0.69, 1);
-	faux = fparser.Eval(&a);	
-	num = 720*(faux - fmini)/(fmaxi - fmini);
-	cairo_move_to(cr,20, 40 + num);
-	cout<<num<<endl;
-  	for(int i = 1; i < 1001; i++)
-  	{
-		aux = a + i*(b-a)/1000;
-		faux = fparser.Eval(&aux);
-		num = 720*(faux-fmini)/(fmaxi - fmini); 
-		cairo_line_to(cr, 20 + i*92,40 + num); 
-		cairo_move_to(cr, 20 + i*92,40 + num);
-	}	
+	if(fmaxi - fmini > epsilon)
+	{	
+		faux = fparser.Eval(&a);	
+		num = (faux - fmini)/(fmaxi - fmini);
+		num *= 720.0;
+		cairo_move_to(cr,40, 760 - num);
+		for(int i = 1; i < 1001; i++)
+  		{
+			aux = a + i*(b-a)/1000;
+			faux = fparser.Eval(&aux);
+			num = (faux - fmini)/(fmaxi - fmini);
+			num *= 720.0;		
+			cairo_line_to(cr, 40 + i*0.92,760 - num); 
+			cairo_move_to(cr, 40 + i*0.92,760 - num);
+		}
+	}
+	else
+	{
+		cairo_move_to(cr,40,400);
+		cairo_line_to(cr,980l,700);		
+	}		
 	cairo_stroke(cr);
    cairo_save(cr); 
 }
@@ -100,11 +115,16 @@ static void do_drawing(cairo_t *cr)
 
 int main(int argc, char *argv[])
 {
+	if(argc != 4)
+	{
+		cout<<"Error: Numero incorrecto de argumentos";   
+   }
 	a = atof(argv[1]);
 	b = atof(argv[2]);
 	func = argv[3];
    fparser.Parse(func,"x");	
-	
+	fparser.AddConstant("pi", 3.1415926535897932);
+
 	cairo_t *cr;
 	GtkWidget *window;
 	GtkWidget *darea;
