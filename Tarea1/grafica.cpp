@@ -50,7 +50,7 @@ static void do_drawing(cairo_t *cr)
 	char *text;
 	double num;
 	string mystr;	
-   //El eje de las Y
+ 	//El eje de las Y
 	cairo_stroke(cr);
 	cairo_set_font_size(cr,8);  	
   	cairo_set_source_rgb(cr, 0, 0, 0);
@@ -80,9 +80,9 @@ static void do_drawing(cairo_t *cr)
 		cairo_show_text(cr,text);
 	}
 	cairo_move_to(cr,40,760);
-   cairo_line_to(cr,980,760);
-   cairo_stroke(cr);
-   cairo_save(cr);
+   	cairo_line_to(cr,980,760);
+   	cairo_stroke(cr);
+   	cairo_save(cr);
 	//graficamos la función
 	cairo_stroke(cr);
 	cairo_set_line_width(cr, 5);
@@ -118,11 +118,11 @@ int main(int argc, char *argv[])
 	if(argc != 4)
 	{
 		cout<<"Error: Numero incorrecto de argumentos";   
-   }
+   	}
 	a = atof(argv[1]);
 	b = atof(argv[2]);
 	func = argv[3];
-   fparser.Parse(func,"x");	
+	fparser.Parse(func,"x");	
 	fparser.AddConstant("pi", 3.1415926535897932);
 
 	cairo_t *cr;
