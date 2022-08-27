@@ -24,7 +24,8 @@ int main(int argc, char *argv[])
    if(fa*fb > 0 && abs(fa - fb) > epsilon) //Los extremos no cumplen las condiciones iniciales
    {
    	cout<<"Los extremos no cumplen la condicion inicial"<<endl; 
-   	return 0;
+   	cout<<"El número de iteraciones es 0"<<endl;
+      return 0;
    }
    if(fa == 0) //Compruebo si alguno de los extremos no es ya la raiz
    {
@@ -35,7 +36,6 @@ int main(int argc, char *argv[])
    if(fb == 0) //Compruebo si alguno de los extremos no es ya la raiz
    {
        cout<<"El algoritmo converge y su raiz es "<<b<<endl;
-       cout<<"El número de iteraciones es 0"<<endl;
        return 0;
    }
    for(int i = 1; i <= itera; i++)
