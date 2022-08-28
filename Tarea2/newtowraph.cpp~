@@ -36,7 +36,6 @@ int main(int argc, char *argv[])
 		if(abs(d0) < epsilon) 
 		{
 			cout<<"El algoritmo no convergio, la derivada es 0\n";
-			cout<<f0<<" "<<d0<<endl;
 			return 0;
 		}
 		x0 = x0 - f0/d0;			
