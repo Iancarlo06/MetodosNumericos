@@ -7,24 +7,24 @@ using namespace std;
 int main()
 {
 	int n; 
-	double b[1000], res[1000];
-	double U[1000][1000];	
+	double b[5000], res[5000];
+	double U[5000][5000];	
 	double aux;	
 	ifstream myput("U.txt");
 
-   if (!myput.is_open())
-   cout<<"Error opening file\n" ;
+   	if (!myput.is_open())
+   	cout<<"Error opening file\n" ;
 
    myput >> n;
 	
-	for(int i = 0; i < n; i++)
+	for(int i = 0; i < n; i++) //Leo la matriz U
 	{	
 		for(int j = 0; j < n; j++) 
 		{
 			myput>>U[i][j];
 		}	
 	}
-	for(int i = 0; i < n; i++)	myput>>b[i];
+	for(int i = 0; i < n; i++)	myput>>b[i]; //Leo la el vector B
 	
 	for(int i = n-1; i > -1; i--)
 	{	

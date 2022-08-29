@@ -7,9 +7,9 @@ using namespace std;
 int main()
 {
 	int n; 
-	double b[1000], res[1000];
-	double L[1000][1000];	
-	double aux;	
+	double b[5000], res[5000];
+	double L[5000][5000];	
+	double sum;	
 	ifstream myput("L.txt");
 
    if (!myput.is_open())
@@ -31,9 +31,9 @@ int main()
 			cout<<"El sistema no tiene solucion\n";
 			return 0;		
 		}
-		aux = b[i];
-		for(int j = 0; j < i; j++) aux -= L[i][j]*res[j];
-		res[i] = aux/L[i][i];
+		sum = b[i];
+		for(int j = 0; j < i; j++) sum -= L[i][j]*res[j];
+		res[i] = sum/L[i][i];
 	}
 	ofstream myo("resinf.txt");
 	for(int i = 0; i < n; i++)	myo<<res[i]<<"\n";
