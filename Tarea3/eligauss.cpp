@@ -20,7 +20,7 @@ int main()
     myput >> n >> m;
     
     for(int i = 0; i < n; i++){
-    	for(int j = 0;j < n; j++){
+    	for(int j = 0;j < m; j++){
 		    myput >> (*(A +i*n +j));
         }
     }
@@ -45,16 +45,16 @@ int main()
     for(int i=0;i < n;i++)
     {
         indi = i;
-        Amax = *(A + i*m + i);
+        Amax = fabs((*(A + i*m + i)));
         for(int j = i+1;j < n;j++) //Esto es para que siempre este en la diagonal el valor mayor
 		{
-            if((*(A + j*m + i)) > Amax)
+            if(fabs((*(A + j*m + i))) > Amax)
             {
-                Amax = *(A + j*m + i);
+                Amax = fabs((*(A + j*m + i)));
                 indi = j;
             }
         }
-        if(fabs(Amax) == 0){
+        if(Amax == 0){
             cout<<"La matriz es singular\n";
             return 0;
         }
@@ -64,7 +64,10 @@ int main()
                 aux = *(A + i*m + j);
                 *(A + i*m + j) = *(A + indi*m + j);
                 *(A + indi*m + j) = aux;
-    	    }    
+    	    }
+            aux = *(B + i);
+            *(B + i) = *(B + indi);
+            *(B + indi) = aux;    
         }
     	for(int j = i+1;j < n;j++)
 		{            
@@ -82,7 +85,7 @@ int main()
         aux = *(B + i);
         for(int j = (m-1); j > i; j--)
             aux -= (*(X + j))*(*(A + i*m + j));
-        *(X + i) = aux;
+        *(X + i) = aux/(*(A + i*m + i));
     }
     end = chrono::system_clock::now();
     
