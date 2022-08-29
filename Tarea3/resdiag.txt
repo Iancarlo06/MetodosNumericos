@@ -1,0 +1,17 @@
+La determinante de la matriz es: 5040
+El vector solución es:
+8
+4.5
+3.33333
+2.75
+2.4
+2.16667
+2
+Y su inversa es:
+1
+0.5
+0.333333
+0.25
+0.2
+0.166667
+0.142857
