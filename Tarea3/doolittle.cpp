@@ -58,22 +58,6 @@ int main(){
         }
     }
 
-    for(i=0;i<n;i++)
-    {
-        for(j=0;j<n;j++)
-
-                        printf ("%10.2f",L[i][j]);
-            printf("\n    ");
-    }
-
-        printf("\n\n U =");
-    for(i=0;i<n;i++)
-    {
-        for(j=0;j<n;j++)
-                         printf ("%10.2f",U[i][j]);
-            printf("\n    ");
-    }
-
     Y[0]=B[0]/L[0][0];
     for(i=1;i<n;i++)
     {
@@ -85,13 +69,7 @@ int main(){
         }
         Y[i]=B[i]-sum;
     }
-    printf("\n\n Y =");
-    for(i=0;i<n;i++)
-    {
-                printf ("%10.2f",Y[i]);
-            printf("\n    ");
-    }
-
+    
     X[n-1]=Y[n-1]/U[n-1][n-1];
     for(i=n-2;i>=0;i--){
         sum=0;
@@ -103,5 +81,4 @@ int main(){
     printf("\nLa solucion es :\n");
     for(i=0;i<n;i++)
         printf("\n x[%d] = %.2f ",i+1,X[i]);
-    printf("\n\n");
 }
