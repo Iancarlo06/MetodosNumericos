@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
    	(*(deri2 + i)) += fparser.Eval(&evalu);
    	(*(deri2 + i)) -= (2*fparser.Eval(range + i));
    	(*(deri2 + i)) /= (delta*delta);
-   	cout<<(*(range + i))<<" "<<(*(deri1 + i))<<"\n";
+   	cout<<(*(range + i))<<" "<<(*(deri1 + i));
    }
   
 	for(int i = 0; i < parti; i++)
