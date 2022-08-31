@@ -2,29 +2,17 @@
 #include<stdio.h>
 #include<fstream>
 
+#define MAXITER 100000;
+
 using namespace std;
 
-void CholeskyD(double *A, double *L, int n)
+void Jacobi(int n, double *A, double *b, double *vv, double *vn)
 {
-    for(int i = 0;i < n; i++)
+    for(int i = 0; i < n; i++) *(vv + i) = (*(b + i))/(*(A + i*n + i));
+    int iter = 0, num = 0, den = 0;
+    while(iter < MAXITER)
     {
-        for(int j = 0;j <= i; j++)
-        {
-            sum = 0;
- 
-            if (j == i) // entradas diagonal 
-            {
-                for (int k = 0; k < j; k++)
-                    sum += (*(L + j*n + k))*(*(L + j*n + k));
-                *(L + j*n + j) = sqrt((*(A + j*n + j)) - sum);
-            } else {
- 
-                // Evaluamos L(i, j) usando L(j, j)
-                for (int k = 0; k < j; k++)
-                    sum +=  (*(L + i*n + k))*(*(L + j*n + k));
-                (*(L + i*n + j)) = ((*(A + i*n + j)) - sum) / (*(L + j*n + j));
-            }
-        }
+        
     }
 }
 
