@@ -30,9 +30,10 @@ void GaussSeidel(int n, double *A, double *b, double *vv, double *vn)
             *(vn + i) = ((*(b + i)) - sum)/(*(A+i*n+i));
             num = num + ( (*(vv + i)) - (*(vn + i)) )*( (*(vv + i)) - (*(vn + i)) );
             den = den + ( (*(vn +i)) * (*(vn +i)) );
+            num = sqrt(num);
+            den = sqrt(tol);
         }
         tol = num/den;
-        tol = sqrt(tol);
         if(tol < valor) break;
         for(int i = 0; i < n; i++) *(vv + i) = *(vn + i);
         iter++;
