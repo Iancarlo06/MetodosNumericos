@@ -2,6 +2,8 @@
 #include<stdio.h>
 #include<fstream>
 #include<math.h>
+#include <ctime>
+#include <chrono>
 
 using namespace std;
 
@@ -55,7 +57,7 @@ void solveLT(double *L, double *X, double *Y, int n)
 
 int main()
 {
-	int n,m, uno;
+	int n;
    ifstream myput;
    myput.open("mat.txt");
 	double *A, *B, *X, *L, *Y;
@@ -84,20 +86,37 @@ int main()
     }
     myifs.close();
     
+    chrono::time_point<chrono::system_clock> start, end;
+    start = chrono::system_clock::now();
+
     CholeskyD(A, L, n);   
     solveL(L, Y, B, n);
     solveLT(L, X, Y, n);
 
+    end = chrono::system_clock::now();
+
+
+    ofstream myo;
+    myo.open("puntos10.txt");
+    myo << 0 << "\n";
+	double myerror = 0, aux;
     
-   ofstream myo;
-   myo.open("puntos10000.txt");
-   myo << 0 << "\n";
-	for(int i = 0; i < n; i++)	{
-		  myo << (*(X + i)) << "\n";
+    for(int i = 0; i < n; i++)	{
+        aux = (i+1);
+        aux /= (n+1);
+        aux = aux*aux + aux;
+        myerror += ( aux - (*(X + i)) ) * ( aux - (*(X + i)) );
+		myo << (*(X + i)) << "\n";
     }
     myo << 2;
     myo.close();
-    
+    myerror = sqrt(myerror);
+
+    chrono::duration<double> elapsed_seconds = end - start;
+    time_t end_time = chrono::system_clock::to_time_t(end);
+    cout << "Tiempo transcurrido: " << elapsed_seconds.count() << "s\n";
+    cout << "Error: " << myerror << "\n";
+
     free(A);
     free(B);
     free(X);

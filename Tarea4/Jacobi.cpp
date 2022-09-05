@@ -2,6 +2,8 @@
 #include<stdio.h>
 #include<fstream>
 #include<math.h>
+#include <ctime>
+#include <chrono>
 
 using namespace std;
 
@@ -45,10 +47,10 @@ int main()
    ifstream myput;
    myput.open("mat.txt");
    double *A, *B, *vv, *vn, sum;
-   A = (double *)malloc(sizeof(double)*100000000);
-   B = (double *)malloc(sizeof(double)*10000);
-   vv = (double *)malloc(sizeof(double)*10000);
-   vn = (double *)malloc(sizeof(double)*10000);
+   A = (double *)malloc(sizeof(double)*100000005);
+   B = (double *)malloc(sizeof(double)*10005);
+   vv = (double *)malloc(sizeof(double)*10005);
+   vn = (double *)malloc(sizeof(double)*10005);
     
     myput >> n;
     
@@ -69,14 +71,32 @@ int main()
     }
     myifs.close();
     
-    Jacobi(n, A, B, vv, vn);
+    chrono::time_point<chrono::system_clock> start, end;
+    start = chrono::system_clock::now();
     
+    Jacobi(n, A, B, vv, vn);
+
+    end = chrono::system_clock::now();
+
     ofstream myo;
     myo.open("x.txt");
-	for(int i = 0; i < n; i++)	{
+    myo << 0 << "\n";
+	double myerror = 0, aux;
+    
+    for(int i = 0; i < n; i++)	{
+        aux = (i+1);
+        aux /= (n+1);
+        aux = aux*aux + aux;
+        myerror += ( aux - (*(vn + i)) ) * ( aux - (*(vn + i)) );
         myo << (*(vn + i)) << "\n";
     }
     myo.close();
+    myerror = sqrt(myerror);
+
+    chrono::duration<double> elapsed_seconds = end - start;
+    time_t end_time = chrono::system_clock::to_time_t(end);
+    cout << "Tiempo transcurrido: " << elapsed_seconds.count() << "s\n";
+    cout << "Error: " << myerror << "\n";
     
     free(A);
     free(B);

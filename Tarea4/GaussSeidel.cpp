@@ -2,6 +2,8 @@
 #include<stdio.h>
 #include<fstream>
 #include<math.h>
+#include <ctime>
+#include <chrono>
 
 #define MAXITER 100000
 #define valor 0.00000001
@@ -45,10 +47,10 @@ int main()
    ifstream myput;
    myput.open("mat.txt");
    double *A, *B, *vn, *vv;
-   A = (double *)malloc(sizeof(double)*25000000);
-   B = (double *)malloc(sizeof(double)*5000);
-   vv = (double *)malloc(sizeof(double)*5000);
-   vn = (double *)malloc(sizeof(double)*5000);
+   A = (double *)malloc(sizeof(double)*100000005);
+   B = (double *)malloc(sizeof(double)*10005);
+   vv = (double *)malloc(sizeof(double)*10005);
+   vn = (double *)malloc(sizeof(double)*10005);
     
     myput >> n;
     
@@ -69,14 +71,33 @@ int main()
     }
     myifs.close();
     
+    chrono::time_point<chrono::system_clock> start, end;
+    start = chrono::system_clock::now();
+    
     GaussSeidel(n, A, B, vv, vn);
+
+    end = chrono::system_clock::now();
+
     
     ofstream myo;
     myo.open("x.txt");
-	for(int i = 0; i < n; i++)	{
+    myo << 0 << "\n";
+	double myerror = 0, aux;
+    
+    for(int i = 0; i < n; i++)	{
+        aux = (i+1);
+        aux /= (n+1);
+        aux = aux*aux + aux;
+        myerror += ( aux - (*(vn + i)) ) * ( aux - (*(vn + i)) );
         myo << (*(vn + i)) << "\n";
     }
     myo.close();
+    myerror = sqrt(myerror);
+
+    chrono::duration<double> elapsed_seconds = end - start;
+    time_t end_time = chrono::system_clock::to_time_t(end);
+    cout << "Tiempo transcurrido: " << elapsed_seconds.count() << "s\n";
+    cout << "Error: " << myerror << "\n";
     
     free(A);
     free(B);
