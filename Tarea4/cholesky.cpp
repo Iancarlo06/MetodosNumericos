@@ -91,18 +91,17 @@ int main()
     
    ofstream myo;
    myo.open("puntos100.txt");
-   double dist = 1.0, aux;
-   dist /= (n + 1);
+   myo << 0 << "\n";
 	for(int i = 0; i < n; i++)	{
-		  aux = dist*(i+1);
-		  aux = aux*aux + aux;
-        myo << aux - (*(X + i)) << "\n";
+		  myo << (*(X + i)) << "\n";
     }
+    myo << 2;
     myo.close();
     
     free(A);
     free(B);
     free(X);
+    free(Y);
     free(L);
     return 0;
 
