@@ -45,10 +45,10 @@ int main()
    ifstream myput;
    myput.open("mat.txt");
    double *A, *B, *vv, *vn, sum;
-   A = (double *)malloc(sizeof(double)*25000000);
-   B = (double *)malloc(sizeof(double)*5000);
-   vv = (double *)malloc(sizeof(double)*5000);
-   vn = (double *)malloc(sizeof(double)*5000);
+   A = (double *)malloc(sizeof(double)*100000000);
+   B = (double *)malloc(sizeof(double)*10000);
+   vv = (double *)malloc(sizeof(double)*10000);
+   vn = (double *)malloc(sizeof(double)*10000);
     
     myput >> n;
     

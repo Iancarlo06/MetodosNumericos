@@ -5,7 +5,7 @@ using namespace std;
 
 int main()
 {
-   double n = 101.0;
+   double n = 10001.0;
    double aux = 0;
 	
 	ofstream f("mat.txt");

@@ -59,11 +59,11 @@ int main()
    ifstream myput;
    myput.open("mat.txt");
 	double *A, *B, *X, *L, *Y;
-   A = (double *)malloc(sizeof(double)*25000000);
-   B = (double *)malloc(sizeof(double)*5000);
-   X = (double *)malloc(sizeof(double)*5000);
-   Y = (double *)malloc(sizeof(double)*5000);
-   L = (double *)malloc(sizeof(double)*25000000);
+   A = (double *)malloc(sizeof(double)*100000005);
+   B = (double *)malloc(sizeof(double)*10005);
+   X = (double *)malloc(sizeof(double)*10005);
+   Y = (double *)malloc(sizeof(double)*10005);
+   L = (double *)malloc(sizeof(double)*100000005);
     
     myput >> n;
     
@@ -90,7 +90,7 @@ int main()
 
     
    ofstream myo;
-   myo.open("puntos100.txt");
+   myo.open("puntos10000.txt");
    myo << 0 << "\n";
 	for(int i = 0; i < n; i++)	{
 		  myo << (*(X + i)) << "\n";
