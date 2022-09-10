@@ -1,0 +1,102 @@
+#include<stdio.h>
+#include <math.h>
+#include<iostream>
+#define toler 0.000000001
+#define numgran 100000001
+
+using namespace std;
+
+void mat_vec(double *mat, double *vec_v, double *vec_n, int n)
+{
+    for(int i = 0; i < n; i++)
+    {
+        *(vec_n + i) = 0;
+        for(int j = 0; j < n; j++) *(vec_n + i) += (*(mat + i*n + j))*(*(vec_v + j));
+    }
+}
+
+void vec_vec(double *vec_0, double *vec_1, double *res, int n)
+{
+    *res = 0;
+    for(int i = 0; i < n; i++) (*res) += (*(vec_0 + i) )*( *(vec_1 + i));
+}
+
+void normaliza(double *vec, int n)
+{
+    double suma = 0;
+    for(int i = 0; i < n; i++) suma+= (*(vec + i))*(*(vec + i));
+    suma = sqrt(suma);
+    if(suma != 0)
+    {
+        for(int i= 0; i < n; i++) (*(vec + i)) /= suma;
+    }
+}
+
+void met_pot(double *mat, double *vec_v, double *val, int n)
+{
+    double error = numgran, valor = 0;
+    *val = 0;
+    double *vec_n = (double *)malloc(sizeof(double)*n);
+    for(int i = 0; i < 2000; i++)
+    {
+        mat_vec(mat, vec_v, vec_n,n);
+        vec_vec(vec_v, vec_n, &valor, n);
+        error = fabs(valor - (*val));
+        *val = valor;
+        normaliza(vec_n, n);
+        for(int j = 0; j < n; j++)
+        {
+            (*(vec_v + j)) = (*(vec_n + j));
+        }
+        if(error < toler) break;
+    }
+    free(vec_n);
+}
+
+void grand_schmit(double *vec_u, double *phi, int n)
+{
+	double vu, vv;
+	vec_vec(vec_u, phi, &vu, n);
+	vec_vec(phi, phi, &vv, n);
+	vu = sqrt(vu);
+	vv = sqrt(vv);	
+	if(vv != 0)
+	{		
+		vu /= vv;
+		for(int i = 0; i < n; i++)
+		{
+			*(vec_u + i) -= vu * (*(phi + i));		
+		}	
+	}
+}
+
+int main()
+{
+   int n;
+   cin>>n;
+   double *mat = (double *)malloc(sizeof(double)*n*n);
+   double *vec = (double *)malloc(sizeof(double)*n);
+	double *phi = (double *)malloc(sizeof(double)*n);   
+   for(int i = 0; i < n; i++){
+   	*(vec + i) = 1;
+   	*(phi + i) = 1;
+   }
+   double aux = n *n;
+   for(int i = 0; i < aux; i++)
+   {
+   	cin>>(*(mat + i));
+   }
+   for(int i = 0; i < n; i++) {
+    	met_pot(mat,phi,&aux,n);
+    	cout<<"El eigenvalor es: "<<aux<<endl;
+   	cout<<"El eigenvector es:\n";
+   	for(int i = 0; i < n; i++) cout<<(*(vec + i))<<"\n";
+ 		cout<<"\n";
+ 		grand_schmit(vec, phi, n);
+ 		for(int i = 0; i < n; i++) *(phi + i) = *(vec + i);
+ 	}
+	free(mat);
+   free(vec);
+   free(phi);
+   return 0;
+}
