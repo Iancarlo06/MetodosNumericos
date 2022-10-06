@@ -72,21 +72,22 @@ void grand_schmit(double *vec_u, double *phi, int n)
 
 int main()
 {
-   int n;
-   cin>>n;
-   double *mat = (double *)malloc(sizeof(double)*n*n);
-   double *vec = (double *)malloc(sizeof(double)*n);
+    int n;
+    cin>>n;
+    double *mat = (double *)malloc(sizeof(double)*n*n);
+    double *vec = (double *)malloc(sizeof(double)*n);
 	double *phi = (double *)malloc(sizeof(double)*n);   
-   for(int i = 0; i < n; i++){
-   	*(vec + i) = 1;
-   	*(phi + i) = 1;
-   }
-   double aux = n *n;
-   for(int i = 0; i < aux; i++)
-   {
-   	cin>>(*(mat + i));
-   }
-   for(int i = 0; i < n; i++) {
+    for(int i = 0; i < n; i++)
+    {
+    	*(vec + i) = 1;
+    	*(phi + i) = 1;
+    }
+    double aux = n *n;
+    for(int i = 0; i < aux; i++)
+    {
+    	cin>>(*(mat + i));
+    }
+    for(int i = 0; i < n; i++) {
     	met_pot(mat,phi,&aux,n);
     	cout<<"El eigenvalor es: "<<aux<<endl;
    	cout<<"El eigenvector es:\n";
@@ -95,8 +96,8 @@ int main()
  		grand_schmit(vec, phi, n);
  		for(int i = 0; i < n; i++) *(phi + i) = *(vec + i);
  	}
-	free(mat);
-   free(vec);
-   free(phi);
-   return 0;
+    free(mat);
+    free(vec);
+    free(phi);
+    return 0;
 }

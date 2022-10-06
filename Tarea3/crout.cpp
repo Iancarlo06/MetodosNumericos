@@ -6,19 +6,38 @@
 
 using namespace std;
 
+void mat_mat(double *C, double *A, double *B, int n, int m, int l)
+{ 
+    
+    for (int i = 0; i < n; i++) 
+    {
+        for(int j = 0; j < l; j++) 
+        {
+            *(C + i*n + j) = 0;
+ 
+            for (int k = 0; k < m; k++) 
+            {
+                *(C + i*n + j) += (*(A + i*m + k)) * (*(B + k*l + j));
+            }
+        }
+    }
+
+}
+
 int main()
 {
 	int n,m, uno;
     ifstream myput;
-    myput.open("A.txt");
-   	double *A, *B, *X, *L, *Y, *U, sum;
+    myput.open("mat.txt");
+   	double *A, *B, *X, *L, *Y, *E, *U, sum;
     A = (double *)malloc(sizeof(double)*25000000);
     B = (double *)malloc(sizeof(double)*5000);
     X = (double *)malloc(sizeof(double)*5000);
     L = (double *)malloc(sizeof(double)*25000000);
     Y = (double *)malloc(sizeof(double)*5000);
     U = (double *)malloc(sizeof(double)*25000000);
-    
+    E = (double *)malloc(sizeof(double)*25000000);
+
     myput >> n >> m;
     
     for(int i = 0; i < n; i++){
@@ -28,7 +47,7 @@ int main()
     }
     myput.close();
 
-    ifstream myifs;
+    /*ifstream myifs;
     myifs.open("b.txt");
     
     myifs >> m >> uno;
@@ -37,7 +56,7 @@ int main()
         myifs >> (*(B + i));
     }
 
-    myifs.close();
+    myifs.close();*/
 
     chrono::time_point<chrono::system_clock> start, end;
     start = chrono::system_clock::now();
@@ -53,10 +72,11 @@ int main()
                 for(int k = 0;k < j;k++) sum = sum + (*(L + i*n + k)) * (*(U + k*n + j));
                 *(L + i*n + j) = *(A + i*n + j) - sum;      //Llenado de elementos restantes de L
             }
+            if(i == j) *(U + i*n + j) = 1;
         }
     }
 
-    for(int i = 0; i < n; i++)
+    /*for(int i = 0; i < n; i++)
     {
         sum = *(B + i);
         for(int j = 0;j < i;j++) sum = sum - (*(Y + j))*(*(L + i*n + j));
@@ -68,7 +88,32 @@ int main()
         for(int j = (n-1); j > i; j--)
             sum -= (*(X + j))*(*(U + i*n + j));
         *(X + i) = sum;
+    }*/
+
+    mat_mat(E, L, U, n, n, n);
+    for(int i = 0; i < n; i++)
+    {
+        for(int j = 0; j < n; j++)
+            printf("%lf ", *(L + i*n + j));
+        printf("\n");
     }
+    printf("\n");
+    for(int i = 0; i < n; i++)
+    {
+        for(int j = 0; j < n; j++)
+            printf("%lf ", *(U + i*n + j));
+        printf("\n");
+    }
+
+    printf("\n");
+    for(int i = 0; i < n; i++)
+    {
+        for(int j = 0; j < n; j++)
+            printf("%lf ", *(E + i*n + j));
+        printf("\n");
+    }
+
+
     end = chrono::system_clock::now();
     
     ofstream myo;
