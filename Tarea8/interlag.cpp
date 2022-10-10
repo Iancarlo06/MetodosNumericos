@@ -1,9 +1,14 @@
-#include<stdio.h> 
+#include<stdio.h>
 #include<stdlib.h>
 #include<math.h>
+#include<fstream>
+#include<iostream>
+#include<string>
+
+using namespace std;
 
 double Lag(double x, double *num, int n, int k, double deno)
-{   
+{
     double res = 1;
     for(int i = 0; i < k; i++) res*= (x - num[i]);
     for(int i = k+1; i < n; i++) res*= (x - num[i]);
@@ -23,32 +28,32 @@ double Polagr(double x, double *pnts, double *fxs, double *dens, int n)
 
 double func(double x)
 {
-    return cos(x);
+    return exp(x);
 }
 
 int main(int argc, char *argv[])
 {
-    if(argc < 2)
+    if(argc < 3)
     {
         printf("Faltan argumentos");
         return 1;
     }
-    int n = atoi(argv[1]);
+    ifstream myifs;
+    myifs.open(argv[1]);
+    int n;
+    myifs >> n;
     double *xses = (double *)malloc(sizeof(double)*n);
     double *yses = (double *)malloc(sizeof(double)*n);
     double *deno = (double *)malloc(sizeof(double)*n);
-    
+
     for(int i = 0; i < n; i++)
     {
-        xses[i] =  (2.0);
-        xses[i] *= i;
-        xses[i] /= n;
-        xses[i] -= 1.0;
+        myifs >> xses[i];
         yses[i] = func(xses[i]);
     }
+    myifs.close();
     for(int i = 0; i < n; i++)
     {
-        yses[i] = 1/xses[i];
         deno[i] = 1;
         for(int j = 0; j < i; j++)
             deno[i] *= (xses[i] - xses[j]);
@@ -57,9 +62,27 @@ int main(int argc, char *argv[])
             deno[i] *= (xses[i] - xses[j]);
     }
 
+    double *aprx = (double *)malloc(sizeof(double)*n);
+    double error = 0;
+    for(int i = 0; i < n; i++)
+    {
+        aprx[i] = Polagr(xses[i], xses, yses, deno, n);
+        error += ((aprx[i] - yses[i])*(aprx[i] - yses[i]));
+    }
+
+    error = sqrt(error);
+    cout<<"El error es: "<<error<<"\n";
+    ofstream f;
+    f.open(argv[2]);
+	f << n << "\n";
+    for(int i = 0; i < n; i++)	{
+        f << aprx[i] << "\n";
+    }
+    f.close();
 
     free(xses);
     free(yses);
     free(deno);
+    free(aprx);
     return 0;
 }
